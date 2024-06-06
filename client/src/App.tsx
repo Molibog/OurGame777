@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import elbrusLogo from './assets/elbrus.svg';
+import { useEffect, useState } from 'react';
+
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import ThemePage from './component/Theme/ThemePage';
+import Card from './component/Card/Card';
 
-function App(): JSX.Element {
-  const [count, setCount] = useState(0);
+function App() {
+  const [themes, setThemes] = useState([]);
+  const [currentTheme, setCurrentTheme] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
 
+  useEffect(() => {
+    fetch(`/api/theme`)
+      .then((res) => res.json())
+      .then((data) => {
+        setThemes(data);
+      })
+      .catch();
+  }, []);
+  console.log(themes);
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://github.com/Elbrus-Bootcamp" target="_blank" rel="noreferrer">
-          <img src={elbrusLogo} className="logo elbrus" alt="Elbrus logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h2>Elbrus Bootcamp</h2>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((prev) => prev + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+    <Routes>
+      <Route path="/">
+        <Route
+          index
+          element={
+            <ThemePage
+              themes={themes}
+              currentTheme={currentTheme}
+              setCurrentTheme={setCurrentTheme}
+            />
+          }
+        />
+
+        <Route path="/theme/:themeId/question/:questionId" element={<Card />} />
+      </Route>
+    </Routes>
   );
 }
 
