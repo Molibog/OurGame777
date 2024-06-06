@@ -4,7 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
-
+.but {
+  color: black;
+  border: 10px outset lightblue;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -16,9 +19,6 @@
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
-}
-.logo.elbrus:hover {
-  filter: drop-shadow(0 0 2em rgb(103, 49, 251));
 }
 
 @keyframes logo-spin {
