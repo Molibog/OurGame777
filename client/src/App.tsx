@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
@@ -8,17 +9,19 @@ import Card from './component/Card/Card';
 function App() {
   const [themes, setThemes] = useState([]);
   const [currentTheme, setCurrentTheme] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(1);
+
+async function getItems(){
+  const response = await axios.get("/api/theme")
+  setThemes(response.data)
+}
 
   useEffect(() => {
-    fetch(`/api/theme`)
-      .then((res) => res.json())
-      .then((data) => {
-        setThemes(data);
-      })
-      .catch();
+    getItems()
   }, []);
-  console.log(themes);
+
+
+
+  
   return (
     <Routes>
       <Route path="/">
