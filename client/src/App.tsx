@@ -10,18 +10,15 @@ function App() {
   const [themes, setThemes] = useState([]);
   const [currentTheme, setCurrentTheme] = useState(0);
 
-async function getItems(){
-  const response = await axios.get("/api/theme")
-  setThemes(response.data)
-}
+  async function getItems() {
+    const response = await axios.get('/api/theme');
+    setThemes(response.data);
+  }
 
   useEffect(() => {
-    getItems()
+    getItems();
   }, []);
 
-
-
-  
   return (
     <Routes>
       <Route path="/">
