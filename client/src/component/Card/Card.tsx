@@ -1,8 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import video1 from '../../../public/Elbrus.mp4'
+import video2 from '../../../public/Test.mp4'
+
+
 
 function Card() {
+
+const videos = [video1, video2]
+
+const [videoI, setVideoI] = useState(0)
 
   const [question, setQuest] = useState({});
 
@@ -10,18 +18,20 @@ function Card() {
   const [rightAnswer, setRightAnswer] = useState("");
   const { themeId, questionId } = useParams();
 
+  
+
   async function getQuestion() {
     const respons = await axios.get(`/api/question/${questionId}`)
     setQuest(respons.data.question)
     
     
   }
-  
+
   
     useEffect(() => {
       getQuestion()
   
-    }, [themeId, questionId]);
+    }, [themeId, questionId, videoI]);
   
     function chekAnswer() {
       if (answer === question.answer) {
@@ -30,12 +40,22 @@ function Card() {
         setRightAnswer(`Правильный ответ: ${question.answer}`);
       }
     }
+ console.log(videoI);
+ console.log(videos[videoI]);
+ 
+    
 
   return (
     <>
-      <div className="card" style={{ width: "50rem" }}>
+      <div className="card" >
         <h1 className="card-title">{question.title}</h1>
-        <img className="card-img-top" src={question.img} />
+        <div>
+        <video key={videos[videoI]} autoPlay={true} controls style={{ width: '400px' }}>
+        <source src={videos[videoI]} type="video/mp4" />
+        Ваш браузер не поддерживает воспроизведение видео.
+      </video>
+        </div>
+        
         <div>
         <input
               onChange={(e) => setAnswer(e.target.value)}
@@ -63,6 +83,7 @@ function Card() {
               onClick={() => {
                 setAnswer("");
                 setRightAnswer("");
+                setVideoI((prev)=> prev +1)
               }}
             >
               <Link to={`/theme/${themeId}/question/${question.id + 1}`}>

@@ -15,7 +15,7 @@ module.exports = {
       answer: {
         type: Sequelize.STRING,
       },
-      img: {
+      video: {
         type: Sequelize.STRING,
       },
       theme_id: {
